@@ -1,7 +1,9 @@
 # Adventure game!!!
 import time
 import random
+import os
 import characters
+
 
 arena = random.choice(characters.arenas)
 arena_attribute = random.choice(characters.arena_attributes)
@@ -103,22 +105,26 @@ def get_weapon():
 
 
 def play_again():
-    choice = input('Would you like to play again? Enter yes or no\n').lower()
-    if 'yes' in choice:
-        arena = random.choice(characters.arenas)
-        arena_attribute = random.choice(characters.arena_attributes)
-        weapon = random.choice(characters.weapons)
-        housing = random.choice(characters.housings)
-        housing2 = random.choice(characters.housings2)
-        antagonist = random.choice(characters.antagonists)
-        lucky_number = random.randint(1, 2)
-        is_weaponized = False
-        play_game(arena, arena_attribute, weapon,
-                  housing, housing2, antagonist, lucky_number, is_weaponized)
-    elif 'no' in choice:
-        exit(1)
-    else:
-        play_again()
+    while True:
+        choice = input(
+            'Would you like to play again? Enter yes or no\n').lower()
+        if 'yes' in choice:
+            arena = random.choice(characters.arenas)
+            arena_attribute = random.choice(characters.arena_attributes)
+            weapon = random.choice(characters.weapons)
+            housing = random.choice(characters.housings)
+            housing2 = random.choice(characters.housings2)
+            antagonist = random.choice(characters.antagonists)
+            lucky_number = random.randint(1, 2)
+            is_weaponized = False
+            os.system('clear')
+            play_game(arena, arena_attribute, weapon,
+                      housing, housing2, antagonist,
+                      lucky_number, is_weaponized)
+        elif 'no' in choice:
+            exit(1)
+        else:
+            continue
 
 
 def start_game(weaponized):
