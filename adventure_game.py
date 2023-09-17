@@ -23,6 +23,10 @@ def output_message(msg):
     time.sleep(2)
 
 
+def valid_input(msg, first_choice, second_choice):
+    choice = input
+
+
 def check_luck(lucky_number):
 
     checking = True
@@ -31,27 +35,29 @@ def check_luck(lucky_number):
 
     while checking:
         luck = input('Please enter "yes" to check'
-                     ' or "no" to skip\n').lower()
-        if 'yes' in luck:
-            number = int(input('pick a number between 1 and 2:\n'))
-            if number not in [1, 2]:
-                print('Invalid input')
-                check_luck()
-            else:
-                if number == lucky_number:
-                    output_message('We are starting with alot of luck')
-                    return
+                     ' or "no" to skip: ').lower()
+        if luck == 'yes':
+            while True:
+                number = (input('pick a number between 1 and 2: '))
+                if number not in choices:
+                    print('Invalid input')
+                    continue
                 else:
-                    output_message('This is a bad luck to start with!')
-                    return
-        elif 'no' in luck:
+                    if int(number) == lucky_number:
+                        output_message('We are starting with alot of luck')
+                        return
+                    else:
+                        output_message('This is a bad luck to start with!')
+                        return
+        elif luck == 'no':
             checking = False
         else:
+            print('Invalid input!')
             continue
 
 
 def intro(arena, arena_attribute, housing, housing2, antagonist):
-    output_message('Welcome to the game!!!')
+    output_message('\n\nWelcome to the game!!!')
     output_message(
         f'You find yourself {arena}, surrounded with {arena_attribute}.')
     output_message(f'Rumor has it that a {antagonist} is somewhere around,'
@@ -88,13 +94,21 @@ def meet_antagonist(weaponized):
     output_message(f'You entered the {housing}')
     output_message(f'it is the {antagonist} resident')
     output_message(f'the {antagonist} attacks you')
-    decision = input('Would you like to 1. fight or 2. run away: ')
-    if decision == choices[0] and weaponized:
-        win()
-    elif decision == choices[0] and not weaponized:
-        lose()
-    else:
-        go_back()
+    while True:
+        decision = input('Would you like to 1. fight or 2. run away\n'
+                         'Please enter 1 or 2: ')
+        if decision == choices[0] and weaponized:
+            win()
+        elif decision == choices[0] and not weaponized:
+            lose()
+        elif decision == choices[1]:
+            output_message('You decided to run away!')
+            output_message('luckily you seemed not to be followed')
+            go_back()
+            break
+        else:
+            print('Invalid input')
+            continue
 
 
 def get_weapon():
@@ -108,7 +122,7 @@ def play_again():
     while True:
         choice = input(
             'Would you like to play again? Enter yes or no\n').lower()
-        if 'yes' in choice:
+        if choice == 'yes':
             arena = random.choice(characters.arenas)
             arena_attribute = random.choice(characters.arena_attributes)
             weapon = random.choice(characters.weapons)
@@ -121,9 +135,10 @@ def play_again():
             play_game(arena, arena_attribute, weapon,
                       housing, housing2, antagonist,
                       lucky_number, is_weaponized)
-        elif 'no' in choice:
+        elif choice == 'no':
             exit(1)
         else:
+            print('Invalid input!')
             continue
 
 
